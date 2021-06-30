@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+<title>Reviewer Report</title>
+<style>
+    .center_div{
+        margin: 0 auto;
+        width:100% /* value of your choice which suits your alignment */
+    }
+    th.rotated-text {
+        height: 140px;
+        white-space: nowrap;
+        padding-bottom: 0.5em;
+        padding-left: 0.5em;
+    }
+
+    th.rotated-text > div {
+        transform:
+            translate(-5px, 0px)
+            rotate(310deg);
+        width: 30px;
+    }
+
+    th.rotated-text > div > span {
+        padding: 5px 10px;
+    }
+
+
+
+    /*
+    .col-w {
+        padding: 0.8em !important;
+    }
+    */
+</style>
+<html lang="en" dir="ltr">
+    <body>
+        <div class="row mt-4">
+            <div class="col-md-1"></div>
+            <div class="col-xs-12 col-md-6">
+                <table class="table table-hover">
+                    <thead class="membership-tiers text-left">
+                    <tr>
+                        <th scope="col"></th>
+                        <th class="rotated-text col-w" scope="col"><div><span>Last Name</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>First Name</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>M.I.</span></div></th>
+                        <th class="rotated-text" scope="col" style="padding-right: 5em;"><div><span>Affiliation</span></div></th>
+                        <th class="rotated-text" scope="col" style="padding-right: 8em;"><div><span>Department</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Address</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>City</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>State</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Zip Code</span></div></th>
+                        <th class="rotated-text" scope="col" style="padding-right: 6em;"><div><span>Phone Number</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Email</span></div></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row"></th>
+                        <td>Johnson</td>
+                        <td>Johnson</td>
+                        <td>J</td>
+                        <td>Rose-Hulman Institute of Technology</td>
+                        <td>Computer Science</td>
+                        <td>123 Real St</td>
+                        <td>Tampa</td>
+                        <td>FL</td>
+                        <td>54321</td>
+                        <td>813-444-2222</td>
+                        <td>johnson&johnson@johnson.org</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td>Johnson</td>
+                        <td>Johnson</td>
+                        <td>J</td>
+                        <td>Rose-Hulman Institute of Technology</td>
+                        <td>Computer Science</td>
+                        <td>123 Real St</td>
+                        <td>Tampa</td>
+                        <td>FL</td>
+                        <td>54321</td>
+                        <td>813-444-2222</td>
+                        <td>johnson&johnson@johnson.org</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td>Johnson</td>
+                        <td>Johnson</td>
+                        <td>J</td>
+                        <td>Rose-Hulman Institute of Technology</td>
+                        <td>Computer Science</td>
+                        <td>123 Real St</td>
+                        <td>Tampa</td>
+                        <td>FL</td>
+                        <td>54321</td>
+                        <td>813-444-2222</td>
+                        <td>johnson&johnson@johnson.org</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td>Johnson</td>
+                        <td>Johnson</td>
+                        <td>J</td>
+                        <td>Rose-Hulman Institute of Technology</td>
+                        <td>Computer Science</td>
+                        <td>123 Real St</td>
+                        <td>Tampa</td>
+                        <td>FL</td>
+                        <td>54321</td>
+                        <td>813-444-2222</td>
+                        <td>johnson&johnson@johnson.org</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="container mb-5">
+                    <a href="#"> <small>Download CSV</small> </a>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </body>
+</html>
+{% endblock %}

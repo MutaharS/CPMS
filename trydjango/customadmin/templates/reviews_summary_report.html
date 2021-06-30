@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+<title>Reviews Summary Report</title>
+<style>
+    .center_div{
+        margin: 0 auto;
+        width:100% /* value of your choice which suits your alignment */
+    }
+    th.rotated-text {
+        height: 140px;
+        white-space: nowrap;
+        padding: 0.8em;
+    }
+
+    th.rotated-text > div {
+        transform:
+            translate(-5px, 0px)
+            rotate(310deg);
+        width: 30px;
+    }
+
+    th.rotated-text > div > span {
+        padding: 5px 10px;
+    }
+
+    .col-w {
+        padding: 4em !important;
+    }
+</style>
+<html lang="en" dir="ltr">
+    <body>
+        <div class="row mt-4">
+            <div class="col-md-1"></div>
+            <div class="col-xs-12 col-md-6">
+                <table class="table table-hover">
+                    <thead class="membership-tiers text-left">
+                    <tr>
+                        <th scope="col"></th>
+                        <th class="rotated-text col-w" scope="col"><div><span>Title</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Appropriateness of Topic</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Timeliness of Topic</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Supportive Evidence</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Technical Quality</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Scope of Coverage</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Citation of Previous Work</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Originality</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Organization of Paper</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Clarity of Main Message</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Mechanics</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Suitability for Presentation</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Potential Interest in Topic</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Overall Rating</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Filename</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Weighted Score</span></div></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row"></th>
+                        <td>Scopus and the Web of Science</td>
+                        <td>4.67</td>
+                        <td>2.50</td>
+                        <td>4.89</td>
+                        <td>2.89</td>
+                        <td>3.99</td>
+                        <td>2.90</td>
+                        <td>5.00</td>
+                        <td>4.05</td>
+                        <td>3.85</td>
+                        <td>3.74</td>
+                        <td>3.62</td>
+                        <td>3.44</td>
+                        <td>3.11</td>
+                        <td>Paper#76.pdf</td> 
+                        <td>3.45</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td>Software Patterns</td>
+                        <td>3.42</td>
+                        <td>4.62</td>
+                        <td>3.94</td>
+                        <td>3.27</td>
+                        <td>3.12</td>
+                        <td>3.91</td>
+                        <td>2.32</td>
+                        <td>5.00</td>
+                        <td>2.78</td>
+                        <td>3.01</td>
+                        <td>3.22</td>
+                        <td>3.24</td>
+                        <td>3.00</td>
+                        <td>Paper#77.pdf</td> 
+                        <td>3.43</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td>Turing Machines</td>
+                        <td>4.67</td>
+                        <td>2.50</td>
+                        <td>4.89</td>
+                        <td>2.89</td>
+                        <td>3.99</td>
+                        <td>2.90</td>
+                        <td>5.00</td>
+                        <td>4.05</td>
+                        <td>3.85</td>
+                        <td>3.74</td>
+                        <td>3.62</td>
+                        <td>3.44</td>
+                        <td>3.11</td>
+                        <td>Paper#78.pdf</td> 
+                        <td>3.62</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td>Reinforcement Learning for Robotic Grasping</td>
+                        <td>4.89</td>
+                        <td>4.70</td>
+                        <td>5.00</td>
+                        <td>5.00</td>
+                        <td>4.67</td>
+                        <td>5.00</td>
+                        <td>4.67</td>
+                        <td>5.00</td>
+                        <td>4.67</td>
+                        <td>4.67</td>
+                        <td>5.00</td>
+                        <td>5.00</td>
+                        <td>5.00</td>
+                        <td>Paper#79.pdf</td> 
+                        <td>4.89</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="container mb-5">
+                    <a href="#"> <small>Download CSV</small> </a>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </body>
+</html>
+{% endblock %}

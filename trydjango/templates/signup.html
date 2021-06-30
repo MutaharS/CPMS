@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+<title>Create User</title>
+<style>
+    .center_div{
+        margin: 0 auto;
+        width:100% /* value of your choice which suits your alignment */
+    }
+</style>
+<html lang="en" dir="ltr">
+  <body>
+    <div class="container-fluid p-xl-5 center_div">
+        <div class="container-fluid">
+            <div class="row text-black">
+                <div class="d-flex p-2">
+                    <h1 class="display-4">Create User</h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- novalidate tag removed on form-->
+        <form class="needs-validation" action={% url 'authorcompletesignup' %} method="POST"> {% csrf_token %}
+            <div class="row">
+              <div class="col mb-2">
+                <label for="validationTooltip01">Name</label>
+                <input type="text" name="name" class="form-control" id="validationTooltip01" placeholder="First name" required>
+                <div class="valid-tooltip">
+                  Looks good!
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col mb-2">
+                <label for="validationTooltipUsername">Username</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="validationTooltipUsernamePrepend">ID</span>
+                  </div>
+                  <input type="text" name="user" class="form-control" id="validationTooltipUsername" placeholder="Username" aria-describedby="validationTooltipUsernamePrepend" required>
+                  <div class="invalid-tooltip">
+                    Please choose a unique and valid username.
+                  </div>
+                </div>
+              </div>
+
+              <div class="col mb-2">
+                <label for="validationTooltip03">Password</label>
+                <input type="password" name="password" class="form-control" id="validationTooltip03" placeholder="Password" required>
+                <div class="valid-tooltip">
+                  Looks good!
+                </div>
+              </div>
+              <div class="container">
+                <button class="btn btn-primary" type="submit">Sign Up</button>
+              </div>
+            </div>
+        </form>
+    </div>
+  </body>
+</html>
+{% endblock %}

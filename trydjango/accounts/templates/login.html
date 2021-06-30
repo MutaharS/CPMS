@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<title>Reviewer Login</title>
+<style>
+    .center_div{
+        margin: 0 auto;
+        width:75% /* value of your choice which suits your alignment */
+    }
+</style>
+<html lang="en" dir="ltr">
+  <body>
+    <div class="container-fluid p-xl-5 center_div">
+        <div class="container">
+            <div class="row text-black">
+                <div class="d-flex p-2">
+                    <h1 class="display-4">Reviewer Login</h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- novalidate tag removed on form-->
+        <form class="needs-validation" action={% url 'userlogin' %} method="POST"> {% csrf_token %}
+            <div class="row">
+                <div class="col mb-2">
+                    {{ form.username|as_crispy_field }}
+                </div>
+                <div class="col mb-2">
+                    {{ form.password|as_crispy_field }}
+                </div>
+                <a href="#"> <small> Forgot Password </small> </a>
+            </div>
+            <div class="container mt-5 float-start mb-5">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </form>
+        <div>
+          {{ context }}
+        </div>
+    </div>
+  </body>
+</html>
+{% endblock %}
