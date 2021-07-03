@@ -21,9 +21,8 @@ admin.autodiscover()
 
 from django.urls import path
 from pages import views
+from author.views import author_signup_view, author_profile, submit_paper_view
 from products.views import product_detail_view, product_create_view
-from author.views import author_signup_view, author_finish_signup, author_login_view
-from author.views import author_login_attempt
 from reviewer.views import reviewer_signup_view, review_form_view
 from accounts.views import login_view, logout_view
 from adminplus.sites import AdminSitePlus
@@ -37,9 +36,8 @@ urlpatterns = [
 
     # Author pages
     path('author_sign_up/', author_signup_view, name='authorsignup'),
-    path('author_login/', author_finish_signup, name='authorcompletesignup'),
-    path('author_login/', author_login_view, name='authorlogin'),
-    path('author_login/', author_login_attempt, name='authorloginattempt'),
+    path('author_profile/', author_profile, name='authorprofile'),
+    path('submit_paper/', submit_paper_view, name='submitpaper'),
 
     # Reviewer Pages
     path('reviewer_sign_up/', reviewer_signup_view, name='reviewersignup'),

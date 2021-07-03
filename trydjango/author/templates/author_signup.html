@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<title>Create Author Account</title>
+<style>
+    .center_div{
+        margin: 0 auto;
+        width:100% /* value of your choice which suits your alignment */
+    }
+</style>
+<html lang="en" dir="ltr">
+    <body>
+        <!-- Container to hold entire page body -->
+        <div class="container-fluid p-xl-5 center_div">
+            <!-- Container to hold title -->
+            <div class="container-fluid">
+                <div class="row text-black">
+                    <div class="d-flex p-2">
+                        <h1 class="display-3">Author Registration</h1>
+                    </div>
+                </div>
+            </div>
+            <h3 class="display-6 mt-5">Contact Information </h3>
+            <div class="mb-4 mt-2"> <small> Fields marked with * are required </small> </div>
+            <form method="POST" action={% url 'authorsignup' %} novalidate> {% csrf_token %}
+                <!-- Start Row -->
+                <div class="row">
+                    <div class="col mb-2">
+                        {{ form.FirstName|as_crispy_field }}
+                    </div>
+                    <div class="col-2 mb-2">
+                        {{ form.MiddleInitial|as_crispy_field }}
+                    </div>
+                    <div class="col mb-2">
+                        {{ form.LastName|as_crispy_field }}
+                    </div>
+                </div> 
+                <!-- End Row-->
+                <!-- Start Row -->
+                <div class="row">
+                    <div class='col mb-2'>
+                        {{ form.Affiliation|as_crispy_field }}
+                    </div>
+                    <div class='col mb-2'>
+                        {{ form.Department|as_crispy_field }}
+                    </div>
+                </div>
+                <!-- End Row -->
+                <!-- Start Row -->
+                <div class="row">
+                    <div class='col mb-2'>
+                        {{ form.CellNumber|as_crispy_field }}
+                        <small>format: 012-345-6789</small>
+                    </div>
+                    <div class='col mb-2'>
+                        {{ form.WorkNumber|as_crispy_field }}
+                    </div>
+                </div>
+                <!-- End Row -->
+                <!-- Start Row -->
+                <div class="row mt-5">
+                    <div class="col mb-2">
+                        {{ form.Address|as_crispy_field }}
+                    </div>
+                </div>
+                <!-- End Row -->
+                <!-- Start Row -->
+                <div class="row">
+                    <div class="col mb-2">
+                        {{ form.City|as_crispy_field }}
+                    </div>
+                    <div class="col mb-2">
+                        {{ form.State|as_crispy_field }}
+                    </div>
+                    <div class="col mb-2">
+                        {{ form.ZipCode|as_crispy_field }}
+                    </div>
+                </div>
+                <!-- End Row -->
+                <!-- Start Row -->
+                <div class="row mt-5">
+                    <div class="col mb-2">
+                        {{ form.Email|as_crispy_field }}
+                    </div>
+                    <div class="col mb-2">
+                        {{ form.Password|as_crispy_field }}
+                    </div>
+                </div>        
+                <!-- End Row -->
+                <!-- Submit Form Button -->
+                <div class="container mt-5 float-start mb-5">
+                    <button class="btn btn-primary" type="submit" value='Save'>Register</button>
+                </div>
+            </form>
+        </div>
+  </body>
+</html>
+{% endblock %}

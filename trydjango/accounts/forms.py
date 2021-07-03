@@ -4,7 +4,7 @@ from django import forms
 User = get_user_model()
 
 class LoginForm(forms.Form):
-    username = forms.CharField()
+    username = forms.CharField(label='Email')
     password = forms.CharField(widget=forms.PasswordInput)
 
     def clean_username(self):

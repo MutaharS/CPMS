@@ -1,7 +1,6 @@
 from django import forms
-from .models import Reviewer, Review
-from author.models import Author
-from trydjango.settings import TOPICS
+from .models import Author, Paper
+from reviewer.models import Reviewer # Need to check for email validation
 '''
     The form is valid if:
         - All required fields are filled
@@ -9,61 +8,79 @@ from trydjango.settings import TOPICS
         - The email is valid (clean_Email)
         - Valid CellNumber is given (clean_CellNumber)
         - Valid WorkNumber is given (clean_WorkNumber) if provided
-        - At least one topic is selected or Other has been described
 '''
 
-# Paper review form based on the review model
-class PaperReviewForm(forms.ModelForm):
-    #PaperTitle = forms.CharField(max_length=200, label='Paper Title', required=True)
+class AuthorRegistrationForm(forms.ModelForm):
+    Password = forms.CharField(widget=forms.PasswordInput)
+    Email = forms.EmailField()
     class Meta:
-        model = Review
-        labels = {
-            'PaperTitle': 'Paper Title',
-            'AppropriatenessOfTopic': 'Appropriateness of Topic',
-            'TimelinessOfTopic': 'Timeliness of Topic',
-            'SupportiveEvidence': 'Supportive Evidence',
-            'TechnicalQuality': 'Technical Quality',
-            'ScopeOfCoverage': 'Scope of Coverage',
-            'CitationOfPreviousWork': 'Citation of Previous Work',
-            'OrganizationOfPaper': 'Organization of Paper',
-            'ClarityOfMainMessage': 'Clarity of Main Message',
-            'SuitabilityForPresentation': 'Suitability for Presentation',
-            'PotentialInterestInTopic': 'Potential Interest in Topic',
-            'OverallRating': 'Overall Rating',
-            'ContentComments': 'Comments',
-            'WrittenComments': 'Comments',
-            'OralComments': 'Comments'
-        }
+        model = Author
         fields = [
-            'PaperTitle',
-            'AppropriatenessOfTopic',
-            'TimelinessOfTopic',
-            'SupportiveEvidence',
-            'TechnicalQuality',
-            'ScopeOfCoverage',
-            'CitationOfPreviousWork',
-            'Originality',
-            'ContentComments',
-
-            'OrganizationOfPaper',
-            'ClarityOfMainMessage',
-            'Mechanics',
-            'WrittenComments',
-
-            'SuitabilityForPresentation',
-            'PotentialInterestInTopic',
-            'OralComments',
-
-            'OverallRating',
-            'OverallComments'
+                'FirstName',
+                'MiddleInitial',
+                'LastName',
+                'Affiliation',
+                'Department',
+                'CellNumber',
+                'WorkNumber',
+                'Address',
+                'City',
+                'State',
+                'ZipCode',
+                'Email',
+                'Password',
         ]
 
-    # Make sure that this is a valid paper, and that the reviewer was assigned this paper
-    def clean_PaperTitle(self, *args, **kwargs):
-        paperTitle = self.cleaned_data.get('PaperTitle')
-        return paperTitle
+    def clean_Email(self, *args, **kwargs):
+        email = self.cleaned_data.get('Email')
+        if not email.endswith('com') and not email.endswith('org') and not email.endswith('edu'):
+            raise forms.ValidationError("This is not a valid email domain.")
+        if not '@' in email:
+            raise forms.ValidationError("This is not a valid email. Please include @.")
+        if Reviewer.objects.filter(Email=email).exists():
+            raise forms.ValidationError("Sorry, this email has been taken.")
+        if Author.objects.filter(Email=email).exists():
+            raise forms.ValidationError("Sorry, this email has been taken.")
+        return email
 
-class ReviewerRegistrationForm(forms.ModelForm):
+    # TODO: clean up the cellphone to remove '-' from it
+    def clean_CellNumber(self, *args, **kwargs):
+        cellnumber = self.cleaned_data.get('CellNumber')
+        return cellnumber
+
+class AuthorEditProfileForm(forms.ModelForm):
+    OldPassword = forms.CharField(widget=forms.PasswordInput, label='Old Password', required=False)
+    NewPassword = forms.CharField(widget=forms.PasswordInput, label='New Password', required=False)
+    ConfirmNewPassword = forms.CharField(widget=forms.PasswordInput, label='Confirm New Password', required=False)
+    class Meta:
+        model = Author
+        fields = [
+                'Affiliation',
+                'Department',
+                'CellNumber',
+                'WorkNumber',
+                'Address',
+                'City',
+                'State',
+                'ZipCode'
+        ]
+    # TODO: Validate OldPassword is correct if NewPassword and ConfirmNewPassword are not blank
+    def clean_OldPassword(self, *args, **kwargs):
+        oldpassword = self.cleaned_data.get('OldPassword')
+        return oldpassword
+
+    # TODO: Validate ConfirmNewPassword is equal to NewPassword, if OldPassword and NewPassword are not blank
+    def clean_ConfirmNewPassword(self, *args, **kwargs):
+        confirmnewpassword = self.cleaned_data.get('ConfirmNewPassword')
+        return confirmnewpassword
+    
+    # TODO: clean up the cellphone to remove '-' from it
+    def clean_CellNumber(self, *args, **kwargs):
+        cellnumber = self.cleaned_data.get('CellNumber')
+        return cellnumber
+
+class PaperSubmissionForm(forms.ModelForm):
+    # Topics 
     Analysis = forms.BooleanField(label="Analysis of Algorithms", required=False)
     Applications = forms.BooleanField(label="Applications", required=False)
     Architecture = forms.BooleanField(label="Architecture", required=False)
@@ -103,45 +120,24 @@ class ReviewerRegistrationForm(forms.ModelForm):
             }
         )
     )
-    
-    Password = forms.CharField(widget=forms.PasswordInput)
-    Email = forms.EmailField()
+    Title = forms.CharField(max_length=200, label="Paper Title")
+    FileUpload = forms.FileField(label='File Selection', required=True)
     class Meta:
-        model = Reviewer
+        model = Paper
         fields = [
-                'FirstName',
-                'MiddleInitial',
-                'LastName',
-                'Affiliation',
-                'Department',
-                'CellNumber',
-                'WorkNumber',
-                'Address',
-                'City',
-                'State',
-                'ZipCode',
-                'Email',
-                'Password',
+            'PaperID',
+            'AuthorID',
+            'Title',
+            'FilenameOriginal',
+            'Filename',
+            'Certification',
+            'NotesToReviewers',
+            'Active'
         ]
 
-    def clean_Email(self, *args, **kwargs):
-        email = self.cleaned_data.get('Email')
-        if not email.endswith('com') and not email.endswith('org') and not email.endswith('edu'):
-            raise forms.ValidationError("This is not a valid email domain.")
-        if not '@' in email:
-            raise forms.ValidationError("This is not a valid email. Please include @.")
-        if Reviewer.objects.filter(Email=email).exists():
-            raise forms.ValidationError("Sorry, this email has been taken.")
-        if Author.objects.filter(Email=email).exists():
-            raise forms.ValidationError("Sorry, this email has been taken.")
-        return email
+    # TODO: Make sure file uploaded is a pdf,docx,doc,etc. allowed extension
 
-    # TODO: clean up the cellphone to remove '-' from it
-    def clean_CellNumber(self, *args, **kwargs):
-        cellnumber = self.cleaned_data.get('CellNumber')
-        return cellnumber
-
-    # Check for a topic
+    # Check for at least one topic
     def clean_Other(self, *args, **kwargs):
         other = self.cleaned_data.get('Other') # Get the cleaned 'other' data to return
         flag = False

@@ -41,12 +41,23 @@
                 <a class="nav-link" href={% url 'reviewersignup' %}>Reviewer Registration</a>
               </li>  
               <li class="nav-item px-2">
+                <a class="nav-link" href={% url 'authorsignup' %}>Author Registration</a>
+              </li>  
+              <li class="nav-item px-2">
                 <a class="nav-link" href={% url 'userlogin' %}>Login</a>
               </li>
               {% endif %}
-              {% if request.user.is_authenticated %}
+              {% if request.user.is_authenticated and request.user.is_author or request.user.is_reviewer%}
               <li class="nav-item px-2">
-                <a class="nav-link" href={% url 'userlogout' %}>Logout</a>
+                <a class="nav-link" href={% url 'authorprofile' %}>Edit Profile</a>
+              </li>
+              {% endif %}
+              {% if request.user.is_authenticated and request.user.is_author %}
+              <li class="nav-item px-2">
+                <a class="nav-link" href="#">Manage Papers</a>
+              </li>
+              <li class="nav-item px-2">
+                <a class="nav-link" href={% url 'submitpaper' %}>Submit Paper</a>
               </li>
               {% endif %}
               {% if request.user.is_authenticated and request.user.is_reviewer %}
@@ -62,6 +73,11 @@
               <li class="nav-item px-2">
                 <a class="nav-link" href="#">View Reviews</a>
               </li>  
+              {% endif %}
+              {% if request.user.is_authenticated %}
+              <li class="nav-item px-2">
+                <a class="nav-link" href={% url 'userlogout' %}>Logout</a>
+              </li>
               {% endif %}
             </ul>
           </div>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<title>Paper Submission Form</title>
+<style>
+    .center_div{
+        margin: 0 auto;
+        width:100% /* value of your choice which suits your alignment */
+    }
+</style>
+<html lang="en" dir="ltr">
+    <body>
+        <!-- Container to hold entire page body -->
+        <div class="container-fluid p-xl-5 center_div">
+            <!-- Container to hold title -->
+            <div class="container-fluid">
+                <div class="row text-black">
+                    <div class="d-flex p-2 mx-5">
+                        <h1 class="display-3">Paper Submission Form</h1>
+                    </div>
+                </div>
+            </div>
+            <form method="POST" action="#" novalidate> {% csrf_token %}
+                <div class="mx-5">
+                    <!-- Start Row -->
+                    <div class="row">
+                        <div class="mb-2">
+                            {{ form.Title|as_crispy_field }}
+                        </div>
+                    </div>
+                    <h3 class="display-6 mt-5"> Paper Topics </h3>
+
+                    <!-- Start Checkbox Row -->
+                    <div class="row">
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.Analysis|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.FirstYear|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.ObjectOriented|as_crispy_field }}
+                        </div>
+                    </div>
+                    <!-- End Checkbox Row -->
+                    <!-- Start Checkbox Row -->
+                    <div class="row">
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.Applications|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.GenderIssues|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.OperatingSystems|as_crispy_field }}
+                        </div>
+                    </div>
+                    <!-- End Checkbox Row -->
+                    <!-- Start Checkbox Row-->
+                    <div class="row">
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.Architecture|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.GrantWriting|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.ParallelProcessing|as_crispy_field }}
+                        </div>
+                    </div>
+                    <!-- End Checkbox Row -->
+                    <!-- Start Checkbox Row-->
+                    <div class="row">
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.ArtificialIntelligence|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.GraphicsImage|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.Pedagogy|as_crispy_field }}
+                        </div>
+                    </div>
+                    <!-- End Checkbox Row -->
+                    <!-- Start Checkbox Row-->
+                    <div class="row">
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.ComputerEngineering|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.HumanComputer|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.ProgrammingLanguages|as_crispy_field }}
+                        </div>
+                    </div>
+                    <!-- End Checkbox Row -->
+                    <!-- Start Checkbox Row-->
+                    <div class="row">
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.Curriculum|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.LaboratoryEnvironments|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.Research|as_crispy_field }}
+                        </div>
+                    </div>
+                    <!-- End Checkbox Row -->
+                    <!-- Start Checkbox Row-->
+                    <div class="row">
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.DataStructures|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.Literacy|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.Security|as_crispy_field }}
+                        </div>
+                    </div>
+                    <!-- End Checkbox Row -->
+                    <!-- Start Checkbox Row-->
+                    <div class="row">
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.Databases|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.Mathematics|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.SoftwareEngineering|as_crispy_field }}
+                        </div>
+                    </div>
+                    <!-- End Checkbox Row -->
+                    <!-- Start Checkbox Row-->
+                    <div class="row">
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.DistanceLearning|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.Multimedia|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.SystemsAnalysis|as_crispy_field }}
+                        </div>
+                    </div>
+                    <!-- End Checkbox Row -->
+                    <!-- Start Checkbox Row-->
+                    <div class="row">
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.DistributedSystems|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.Networking|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.UsingTechnology|as_crispy_field }}
+                        </div>
+                    </div>
+                    <!-- End Checkbox Row -->
+                    <!-- Start Checkbox Row-->
+                    <div class="row">
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.EthicalIssues|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.NonMajor|as_crispy_field }}
+                        </div>
+                        <div class="form-check form-check-inline col-3 mb-3">
+                            {{ form.WebInternet|as_crispy_field }}
+                        </div>
+                    </div>
+                    <!-- Start Row -->
+                    <div class="row">
+                        <div class='col mb-2'>
+                            {{ form.Other|as_crispy_field }}
+                        </div>
+                    </div>
+                    <!-- End Row -->
+                    <!-- End Checkbox Row -->
+                    <!-- Start Row -->
+                    <div class="row">
+                        <div class='col mb-2'>
+                            {{ form.FileUpload|as_crispy_field }}
+                        </div>
+                    </div>
+                    <!-- End Row -->
+                    <div class="container mt-5 float-start mb-5">
+                        <button class="btn btn-primary" type="submit" value='Save'>Submit Review</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
+{% endblock %}

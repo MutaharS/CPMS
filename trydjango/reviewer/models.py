@@ -1,10 +1,10 @@
 from django.db import models
 from datetime import datetime
 from accounts.models import User
+from author.models import Paper
 # Create your models here.
 class Reviewer(models.Model):
     ReviewerID = models.AutoField(primary_key=True)
-    #ReviewerUser = models.OneToOneField(User, on_delete=models.CASCADE) # maybe add user to table after?
     FirstName = models.CharField(max_length=200)
     MiddleInitial = models.CharField(max_length=1,blank=True, null=True)
     LastName = models.CharField(max_length=200)
@@ -26,6 +26,7 @@ class Reviewer(models.Model):
     def __str__(self):
         return self.FirstName + " " + self.LastName
 
+# Needs changes upon database reset
 class Review(models.Model):
     GRADE_CHOICES = [
         (1, 'Poor'),
@@ -43,9 +44,9 @@ class Review(models.Model):
     ]
     ReviewID = models.AutoField(primary_key=True)
     ReviewerID = models.ForeignKey(Reviewer, on_delete=models.CASCADE)
-    #PaperID = models.ForeignKey(Paper, on_delete=models.CASCADE)
+    PaperID = models.ForeignKey(Paper, on_delete=models.CASCADE, null=True) # Delete db, change to not null
     # Content fields
-    PaperTitle = models.CharField(max_length=200,blank=False,null=False,default="")
+    PaperTitle = models.CharField(max_length=200,blank=False,null=False,default="") # Delete db remove this
     AppropriatenessOfTopic = models.IntegerField(choices=GRADE_CHOICES,default=3)
     TimelinessOfTopic = models.IntegerField(choices=GRADE_CHOICES,default=3)
     SupportiveEvidence = models.IntegerField(choices=GRADE_CHOICES,default=3)
@@ -70,3 +71,9 @@ class Review(models.Model):
     OverallRating = models.IntegerField(choices=OVERALL_CHOICES,default=3)
     OverallComments = models.TextField(max_length=200,blank=True,null=True)
     ReviewSubmission = models.CharField(max_length=200,default=datetime.now().isoformat(timespec='minutes'))
+
+    # Whether the review is completed
+    Complete = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "Review by: " + self.ReviewerID.FirstName + " " + self.ReviewerID.LastName

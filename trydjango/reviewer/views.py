@@ -81,7 +81,6 @@ def reviewer_signup_view(request):
         
         # Finally, create the user object corresponding to this reviewer
         # Set the username in User database as the reviewer's email and set their respective password
-        # TODO: Encrypt the password before saving to database
         User = get_user_model()
         obj = User.objects.create(username=email)
         obj.is_reviewer = True # Set this user as a reviewer
