@@ -1,6 +1,7 @@
 from django import forms
 from .models import Author, Paper
 from reviewer.models import Reviewer # Need to check for email validation
+from trydjango.settings import TOPICS, ALLOWED_EXTENSIONS # import TOPICS
 '''
     The form is valid if:
         - All required fields are filled
@@ -79,6 +80,16 @@ class AuthorEditProfileForm(forms.ModelForm):
         cellnumber = self.cleaned_data.get('CellNumber')
         return cellnumber
 
+# For usage in clean_FileUpload()
+# Return whether the file extension is allowed
+def allowed_file(file):
+    # string.rsplit(separator, maxsplit)
+    # Split the file starting from the right, only need to split once
+    filename = str(file)
+    if filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS:
+        return True
+    return False
+
 class PaperSubmissionForm(forms.ModelForm):
     # Topics 
     Analysis = forms.BooleanField(label="Analysis of Algorithms", required=False)
@@ -125,17 +136,18 @@ class PaperSubmissionForm(forms.ModelForm):
     class Meta:
         model = Paper
         fields = [
-            'PaperID',
-            'AuthorID',
             'Title',
-            'FilenameOriginal',
-            'Filename',
-            'Certification',
-            'NotesToReviewers',
-            'Active'
+            'NotesToReviewers'
         ]
 
-    # TODO: Make sure file uploaded is a pdf,docx,doc,etc. allowed extension
+    def clean_FileUpload(self, *args, **kwargs):
+        fileupload = self.cleaned_data.get('FileUpload')
+        if allowed_file(fileupload):
+            return fileupload
+        errmsg = 'Valid file extensions are: '
+        for ext in ALLOWED_EXTENSIONS:
+            errmsg = errmsg + " " + ext 
+        raise forms.ValidationError(errmsg)
 
     # Check for at least one topic
     def clean_Other(self, *args, **kwargs):

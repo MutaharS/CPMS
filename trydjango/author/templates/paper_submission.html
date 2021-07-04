@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </div>
-            <form method="POST" action="#" novalidate> {% csrf_token %}
+            <form method="POST" enctype="multipart/form-data" action={% url 'submitpaper' %} novalidate> {% csrf_token %}
                 <div class="mx-5">
                     <!-- Start Row -->
                     <div class="row">
@@ -181,6 +181,10 @@
                     </div>
                     <!-- End Row -->
                     <!-- End Checkbox Row -->
+                    <div class='col mb-2'>
+                        {{ form.NotesToReviewers|as_crispy_field }}
+                    </div>
+                    </div>
                     <!-- Start Row -->
                     <div class="row">
                         <div class='col mb-2'>

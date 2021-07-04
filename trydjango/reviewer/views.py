@@ -3,8 +3,7 @@ from django.shortcuts import render
 from django import forms
 from .models import Reviewer
 from .forms import ReviewerRegistrationForm, PaperReviewForm
-from topic.models import ReviewerTopic
-from topic.models import Topic
+from topic.models import Topic, ReviewerTopic
 from trydjango.settings import TOPICS
 
 # Create your views here.

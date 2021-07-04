@@ -18,7 +18,7 @@ class ReviewerTopic(models.Model):
         return self.ReviewerID.FirstName + self.ReviewerID.LastName + ": " + self.TopicID.TopicName
 
 class PaperTopic(models.Model):
-    ReviewerTopicID = models.AutoField(primary_key=True)
+    PaperTopicID = models.AutoField(primary_key=True)
     PaperID = models.ForeignKey(Paper, on_delete=models.CASCADE)
     TopicID = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
