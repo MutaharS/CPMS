@@ -88,6 +88,12 @@ def handle_uploaded_file(file):
     return fpath # return the actual file name
 
 # NOTE: File upload is now working, just need to save the Paper model
+# TODO (COMPLETED): Save the paper object via form.save()
+#       Fill in any details the paper needs
+#       Create a PaperTopic entry relating the paper to its topics
+#       Save the paper file into the project directory
+
+#form = form.save(commit=False) # Save the review, but don't commit to the db yet
 def submit_paper_view(request):
     if request.method == "POST":
         form = PaperSubmissionForm(request.POST, request.FILES)
@@ -117,12 +123,6 @@ def submit_paper_view(request):
                         topic = Topic.objects.get(TopicName=field.label) # Get the topic with this name
                         pt = PaperTopic(PaperID=paper,TopicID=topic) # Create the ReviewerTopic instance
                         pt.save() # save the instance to the database
-            # TODO: Save the paper object via form.save()
-            #       Fill in any details the paper needs
-            #       Create a PaperTopic entry relating the paper to its topics
-            #       Save the paper file into the project directory
-
-            #form = form.save(commit=False) # Save the review, but don't commit to the db yet
     else:
         form = PaperSubmissionForm(None)
     return render(request, "paper_submission.html", {"form" : form})
