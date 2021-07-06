@@ -28,6 +28,7 @@ class Paper(models.Model):
     Title = models.CharField(max_length=200)
     FilenameOriginal = models.CharField(max_length=100,default="")
     Filename = models.CharField(max_length=100,default="")
+    NumberOfAssignedReviewers = models.IntegerField(default=0)
     Certification = models.CharField(max_length=3,default="")
     NotesToReviewers = models.TextField(blank=True,default="")
     Active = models.BooleanField(default=False)
