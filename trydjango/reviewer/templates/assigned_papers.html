@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<title>Paper Review Form</title>
+<style>
+    .center_div{
+        margin: 0 auto;
+        width:100% /* value of your choice which suits your alignment */
+    }
+</style>
+<html lang="en" dir="ltr">
+    <body>
+        <!-- Container to hold entire page body -->
+        <div class="container-fluid p-xl-5 center_div">
+            <!-- Container to hold title -->
+            <div class="container-fluid">
+                <div class="row text-black">
+                    <div class="d-flex p-2 mx-5">
+                        <h1 class="display-3">View Assigned Papers</h1>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th> Paper </th>
+                    <th> Link to PDF</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in assigned_papers %}
+                    <tr>
+                        <td> {{ item.0 }} </td>
+                        <td><a href={% url 'assignedpapers' %}?data={{item.1}}> download </a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
+{% endblock %}

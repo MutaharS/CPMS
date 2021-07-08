@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<title>Paper Review Form</title>
+<style>
+    .center_div{
+        margin: 0 auto;
+        width:100% /* value of your choice which suits your alignment */
+    }
+</style>
+<html lang="en" dir="ltr">
+    <body>
+        <!-- Container to hold entire page body -->
+        <div class="container-fluid p-xl-5 center_div">
+            <!-- Container to hold title -->
+            <div class="container-fluid">
+                <div class="row text-black">
+                    <div class="d-flex p-2 mx-5">
+                        <h1 class="display-3">Paper Review Form</h1>
+                    </div>
+                </div>
+            </div>
+            <form method="POST" action={% url 'reviewform' %} novalidate> {% csrf_token %}
+                <div class="mx-5">
+                    <!-- Start Row -->
+                    <div class="row">
+                        <div class="mb-2">
+                            PaperTitle
+                        </div>
+                    </div>
+                    <!-- End Row -->
+                    <h3 class="display-6 mt-5"> Content </h3>
+                    <!-- Start Row -->
+                    <div class="row">
+                        <div class="col-3 mb-2">
+                            {{ form.AppropriatenessOfTopic|as_crispy_field }}
+                        </div>
+                        <div class="col-3 mb-2">
+                            {{ form.TimelinessOfTopic|as_crispy_field }}
+                        </div>
+                        <div class="col-3 mb-2">
+                            {{ form.SupportiveEvidence|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 mb-2">
+                            {{ form.TechnicalQuality|as_crispy_field }}
+                        </div>
+                        <div class="col-3 mb-2">
+                            {{ form.ScopeOfCoverage|as_crispy_field }}
+                        </div>
+                        <div class="col-3 mb-2">
+                            {{ form.CitationOfPreviousWork|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 mb-2">
+                            {{ form.Originality|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-2">
+                            {{ form.ContentComments|as_crispy_field }}
+                        </div>
+                    </div>
+                    <h3 class="display-6 mt-5"> Written Document </h3>  
+                    <div class="row">
+                        <div class="col-3 mb-2">
+                            {{ form.OrganizationOfPaper|as_crispy_field }}
+                        </div>
+                        <div class="col-3 mb-2">
+                            {{ form.ClarityOfMainMessage|as_crispy_field }}
+                        </div>
+                        <div class="col-3 mb-2">
+                            {{ form.Mechanics|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-2">
+                            {{ form.WrittenComments|as_crispy_field }}
+                        </div>
+                    </div>
+                    <h3 class="display-6 mt-5"> Potential for Oral Presentation </h3>  
+                    <div class="row">
+                        <div class="col-3 mb-2">
+                            {{ form.SuitabilityForPresentation|as_crispy_field }}
+                        </div>
+                        <div class="col-3 mb-2">
+                            {{ form.PotentialInterestInTopic|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-2">
+                            {{ form.OralComments|as_crispy_field }}
+                        </div>
+                    </div>
+                    <h3 class="display-6 mt-5"> Overall Rating </h3>  
+                    <div class="row">
+                        <div class="mb-2">
+                            {{ form.OverallRating|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-2">
+                            {{ form.OverallComments|as_crispy_field }}
+                        </div>
+                    </div>
+                    <!-- Submit Form Button -->
+                    <div class="container mt-5 float-start mb-5">
+                        <button class="btn btn-primary" type="submit" value='Save'>Submit Review</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
+{% endblock %}

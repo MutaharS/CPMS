@@ -8,6 +8,7 @@ from django.shortcuts import render
 #         admin.site.each_context(request),
 #     )
 #     return render(request, "home.html", context)
+
 @admin.site.register_view('reviews_summary_report', urlname='reviews_summary_report', name='Reviews Summary Report')
 def reviews_summary_report_view(request):
     context = dict(

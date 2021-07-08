@@ -23,7 +23,7 @@ from django.urls import path
 from pages import views
 from author.views import author_signup_view, author_profile, submit_paper_view
 from products.views import product_detail_view, product_create_view
-from reviewer.views import reviewer_signup_view, review_form_view
+from reviewer.views import reviewer_signup_view, choose_review_view, review_form_view, assigned_papers_view
 from accounts.views import login_view, logout_view
 from adminplus.sites import AdminSitePlus
 
@@ -41,6 +41,8 @@ urlpatterns = [
 
     # Reviewer Pages
     path('reviewer_sign_up/', reviewer_signup_view, name='reviewersignup'),
+    path('assigned_papers/', assigned_papers_view , name='assignedpapers'),
+    path('choose_review_form/', choose_review_view , name='choosereviewform'),
     path('review_form/', review_form_view , name='reviewform'),
 
     # To be removed in production

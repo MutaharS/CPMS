@@ -45,8 +45,9 @@ AUTHENTICATION_BACKENDS = (
         'django.contrib.auth.backends.ModelBackend',
     )
 
-# Application definition
 
+
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin.apps.SimpleAdminConfig',
     'django.contrib.auth',
@@ -68,6 +69,7 @@ INSTALLED_APPS = [
     'adminplus',
     'crispy_forms',
 ]
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [

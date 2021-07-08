@@ -47,9 +47,14 @@
                 <a class="nav-link" href={% url 'userlogin' %}>Login</a>
               </li>
               {% endif %}
-              {% if request.user.is_authenticated and request.user.is_author or request.user.is_reviewer%}
+              {% if request.user.is_authenticated and request.user.is_author%}
               <li class="nav-item px-2">
                 <a class="nav-link" href={% url 'authorprofile' %}>Edit Profile</a>
+              </li>
+              {% endif %}
+              {% if request.user.is_authenticated and request.user.is_reviewer%}
+              <li class="nav-item px-2">
+                <a class="nav-link" href="#">Edit Profile</a>
               </li>
               {% endif %}
               {% if request.user.is_authenticated and request.user.is_author %}
@@ -62,17 +67,16 @@
               {% endif %}
               {% if request.user.is_authenticated and request.user.is_reviewer %}
               <li class="nav-item px-2">
-                <a class="nav-link" href="#">Edit Profile</a>
+                <a class="nav-link" href={% url 'assignedpapers' %}>View Assigned Papers</a>
               </li>  
               <li class="nav-item px-2">
-                <a class="nav-link" href="#">View Assigned Papers</a>
+                <a class="nav-link" href={% url 'choosereviewform' %}>Submit Review</a>
               </li>  
-              <li class="nav-item px-2">
-                <a class="nav-link" href={% url 'reviewform' %}>Submit Review</a>
-              </li>  
+              <!-- Possibly remove this page
               <li class="nav-item px-2">
                 <a class="nav-link" href="#">View Reviews</a>
               </li>  
+              -->
               {% endif %}
               {% if request.user.is_authenticated %}
               <li class="nav-item px-2">

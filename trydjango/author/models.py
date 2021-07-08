@@ -14,7 +14,7 @@ class Author(models.Model):
     City = models.CharField(max_length=200)
     State = models.CharField(max_length=200)
     ZipCode = models.CharField(max_length=200)
-    Email = models.CharField(max_length=200,unique=True,null=True) # Recreate database and make this not nullable
+    Email = models.CharField(max_length=200,unique=True) # Recreate database and make this not nullable
     Password = models.CharField(max_length=100)
     DateJoined = models.CharField(max_length=200,default=datetime.now().isoformat(timespec='minutes'))
 
@@ -32,3 +32,7 @@ class Paper(models.Model):
     Certification = models.CharField(max_length=3,default="")
     NotesToReviewers = models.TextField(blank=True,default="")
     Active = models.BooleanField(default=False)
+
+    # Override printing of a Paper object as the first name and last name plus email
+    def __str__(self):
+        return self.AuthorID.LastName + ", " + self.AuthorID.LastName + ": " + self.Title

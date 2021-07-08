@@ -44,9 +44,14 @@ class Review(models.Model):
     ]
     ReviewID = models.AutoField(primary_key=True)
     ReviewerID = models.ForeignKey(Reviewer, on_delete=models.CASCADE)
-    PaperID = models.ForeignKey(Paper, on_delete=models.CASCADE, null=True) # Delete db, change to not null
+    PaperID = models.ForeignKey(Paper, on_delete=models.CASCADE) # Delete db, change to not null
     # Content fields
-    PaperTitle = models.CharField(max_length=200,blank=False,null=False,default="") # Delete db remove this
+
+    # TODO:
+    # Remove paper title once reviewer-paper matching is completed
+    # We can just have a dropbox of the papers that this reviewer has been assigned
+    # Rather than typing the paper
+    #PaperTitle = models.CharField(max_length=200,blank=False,null=False,default="") 
     AppropriatenessOfTopic = models.IntegerField(choices=GRADE_CHOICES,default=3)
     TimelinessOfTopic = models.IntegerField(choices=GRADE_CHOICES,default=3)
     SupportiveEvidence = models.IntegerField(choices=GRADE_CHOICES,default=3)
@@ -76,4 +81,5 @@ class Review(models.Model):
     Complete = models.BooleanField(default=False)
 
     def __str__(self):
-        return "Review by: " + self.ReviewerID.FirstName + " " + self.ReviewerID.LastName
+        #return "Review by: " + self.ReviewerID.FirstName + " " + self.ReviewerID.LastName
+        return self.PaperID.Title

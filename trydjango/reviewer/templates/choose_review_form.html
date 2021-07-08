@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<title>Paper Review Form</title>
+<style>
+    .center_div{
+        margin: 0 auto;
+        width:100% /* value of your choice which suits your alignment */
+    }
+</style>
+<html lang="en" dir="ltr">
+    <body>
+        <!-- Container to hold entire page body -->
+        <div class="container-fluid p-xl-5 center_div">
+            <!-- Container to hold title -->
+            <div class="container-fluid">
+                <div class="row text-black">
+                    <div class="d-flex p-2 mx-5">
+                        <h1 class="display-3">Paper Review Form</h1>
+                    </div>
+                </div>
+            </div>
+            <form method="POST" action={% url 'choosereviewform' %} novalidate> {% csrf_token %}
+                <div class="mx-5">
+                    <!-- Start Row -->
+                    <div class="row">
+                        <div class="mb-2">
+                            {{ form.PaperChoices|as_crispy_field }}
+                            <small>Please select the paper you would like to review.</small>
+                        </div>
+                    </div>
+                    <!-- Submit Form Button -->
+                    <div class="container mt-5 float-start mb-5">
+                        <button class="btn btn-primary" type="submit" value='Save'>Next</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
+{% endblock %}

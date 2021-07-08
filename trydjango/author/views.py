@@ -80,8 +80,9 @@ def author_profile(request):
 
 # Function to handle uploading the file
 def handle_uploaded_file(file):
+    filename = str(file).replace(' ', '_') # Replace whitespace with underscores otherwise problems happen
     # Upload the file with a unique identifier prepended to the filename
-    fpath = os.path.join("uploads",uuid.uuid1().hex + str(file)) # Get the path for where the file will be written
+    fpath = os.path.join("uploads",uuid.uuid1().hex + filename) # Get the path for where the file will be written
     with open(fpath, 'wb+') as destination:
         for chunk in file.chunks():
             destination.write(chunk)

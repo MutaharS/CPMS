@@ -1,17 +1,21 @@
 from django.contrib.auth import get_user_model
-from django.shortcuts import render
+from django.db.models.query_utils import select_related_descend
+from django.shortcuts import render, redirect
+from django.conf import settings
+from django.http import HttpResponse, Http404
 from django import forms
-from .models import Reviewer
-from .forms import ReviewerRegistrationForm, PaperReviewForm
+from .models import Reviewer, Review
+from .forms import ReviewerRegistrationForm, ChooseReviewForm, PaperReviewForm
 from topic.models import Topic, ReviewerTopic
 from trydjango.settings import TOPICS
+import os
 
 # Create your views here.
 
 # TODO: Enforce authorization for sensitive pages
 
 
-# TODO:
+# TODO: (COMPLETED)
 # Will have to change this view since a Review instance should be created when 
 # assigning a reviewer to a paper and then modifying it in this view rather than creating it
 # Steps: 
@@ -20,23 +24,105 @@ from trydjango.settings import TOPICS
 #   3) Get the Review instance with those parameters
 #   4) Modify the review instance
 
-def review_form_view(request):
-    form = PaperReviewForm(request.POST or None)
+# TODO:
+
+def download(request, paperpath):
+    REMOVE_FOLDER_CHARS = 8 + 32 # 8 chars in 'uploads/', 32 chars in UUID
+    response = HttpResponse(open(os.getcwd() + '/' + paperpath, 'rb').read())
+    response['Content-Type'] = 'application/pdf'
+    response['Content-Disposition'] = 'attachment; filename=%s' % paperpath[REMOVE_FOLDER_CHARS:]
+    return response
+    print(os.getcwd())
+    print(paperpath)
+
+def assigned_papers_view(request):
+    if request.method == "GET" and request.GET.get('data') != None:
+        paperpath = request.GET.get('data')
+        return download(request,paperpath)
+
+    # Store data as list of tuples (Title, Filename)
+    assigned_papers = []
+
+    # Get queryset with the reviews assigned to this reviewer
+    queryset = Review.objects.all().filter(ReviewerID=Reviewer.objects.get(Email=request.user.username))
+    for review in queryset:
+        papertuple = [review.PaperID.Title, review.PaperID.Filename]
+        assigned_papers.append(papertuple)
+    
+    return render(request, "assigned_papers.html", { "assigned_papers" : assigned_papers })
+
+def choose_review_view(request):
+    form = ChooseReviewForm(request.POST or None, user=request.user)
     # Check that the form is valid
     print(form.errors)
-    if form.is_valid():
-        print('Valid Form')
-        rID = Reviewer.objects.get(Email=request.user.username)
-        form = form.save(commit=False) # Save the review, but don't commit to the db yet
-        print(rID)
-        # TODO: Add PaperID
 
-        form.ReviewerID = rID # Set the ReviewerID
-        form.save() # Now we can save it
-        form = PaperReviewForm()    # Reset the form visually
+    if request.method == "POST":
+        # If the form is valid
+        if form.is_valid():
+            print('Valid Form')
+
+            # Get the form data
+            formData = form.cleaned_data
+
+            # Get the selected review
+            selected_review = formData.get('PaperChoices')
+
+            # Store the ReviewID into the session data for use in the actual review form
+            request.session['selected_review'] = selected_review.ReviewID
+
+            # Go to the actual review page
+            return redirect(review_form_view)
+        else:
+            print('Form is not valid')
+    return render(request, "choose_review_form.html", {"form": form})
+
+def review_form_view(request):
+    # Get the selected review using the stored ReviewID
+    review = Review.objects.get(ReviewID=request.session['selected_review'])
+        
+    # Get the current review information to pass to the form
+    context = review.__dict__
+    
+    # Before they submit the form, show the form with the current review data
+    if not request.method == 'POST':
+        form = PaperReviewForm(initial=context)
+    # Otherwise, get the submitted form
     else:
-        print('Form is not valid')
-    return render(request, "review_form.html", {"form": form})
+        form = PaperReviewForm(request.POST or None)
+    
+    # If the form has been validated, then save the changes to the review object
+    if form.is_valid() and request.method == "POST":
+
+        # For each of the form entries (attributes)
+        for attr in form.cleaned_data.keys():
+            # Set the corresponding review object attribute to the form's
+            review.__dict__[attr] = form.cleaned_data[attr]
+        
+        # Mark the review as completed
+        review.__dict__['Complete'] = True
+
+        # Save the review object
+        review.save()
+
+    return render(request, "review_form_backup.html", {"form": form} )
+    
+# def review_form_view(request):
+#     form = PaperReviewForm(request.POST or None)
+#     # Check that the form is valid
+#     print(form.errors)
+#     if form.is_valid():
+#         print('Valid Form')
+#         rID = Reviewer.objects.get(Email=request.user.username)
+#         form = form.save(commit=False) # Save the review, but don't commit to the db yet
+#         print(rID)
+#         # TODO: Add PaperID
+
+#         form.ReviewerID = rID # Set the ReviewerID
+#         form.save() # Now we can save it
+#         form = PaperReviewForm()    # Reset the form visually
+#     else:
+#         print('Form is not valid')
+#     return render(request, "review_form.html", {"form": form})
 
 # View for when a reviewer wants to create an account (from navbar)
 def reviewer_signup_view(request):

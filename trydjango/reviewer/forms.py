@@ -1,6 +1,6 @@
 from django import forms
 from .models import Reviewer, Review
-from author.models import Author
+from author.models import Author, Paper
 from trydjango.settings import TOPICS
 '''
     The form is valid if:
@@ -12,13 +12,27 @@ from trydjango.settings import TOPICS
         - At least one topic is selected or Other has been described
 '''
 
+# Allows the Reviewer to select which paper they would like to review
+class ChooseReviewForm(forms.Form):
+    class Meta:
+        fields = []
+        
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        print(self.user)
+        super(ChooseReviewForm, self).__init__(*args, **kwargs)
+        self.fields["PaperChoices"] = forms.ModelChoiceField(
+            # Get queryset with the reviews assigned to this reviewer
+            queryset=Review.objects.all().filter(ReviewerID=Reviewer.objects.get(Email=self.user.username)),
+            label="Assigned Papers"
+        )
+
 # Paper review form based on the review model
 class PaperReviewForm(forms.ModelForm):
     #PaperTitle = forms.CharField(max_length=200, label='Paper Title', required=True)
     class Meta:
         model = Review
         labels = {
-            'PaperTitle': 'Paper Title',
             'AppropriatenessOfTopic': 'Appropriateness of Topic',
             'TimelinessOfTopic': 'Timeliness of Topic',
             'SupportiveEvidence': 'Supportive Evidence',
@@ -35,7 +49,6 @@ class PaperReviewForm(forms.ModelForm):
             'OralComments': 'Comments'
         }
         fields = [
-            'PaperTitle',
             'AppropriatenessOfTopic',
             'TimelinessOfTopic',
             'SupportiveEvidence',
@@ -57,11 +70,6 @@ class PaperReviewForm(forms.ModelForm):
             'OverallRating',
             'OverallComments'
         ]
-
-    # Make sure that this is a valid paper, and that the reviewer was assigned this paper
-    def clean_PaperTitle(self, *args, **kwargs):
-        paperTitle = self.cleaned_data.get('PaperTitle')
-        return paperTitle
 
 class ReviewerRegistrationForm(forms.ModelForm):
     Analysis = forms.BooleanField(label="Analysis of Algorithms", required=False)
