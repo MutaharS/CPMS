@@ -132,11 +132,13 @@ class PaperSubmissionForm(forms.ModelForm):
         )
     )
     Title = forms.CharField(max_length=200, label="Paper Title")
+    NumberOfAssignedReviewers = forms.IntegerField(required=False)
     FileUpload = forms.FileField(label='File Selection', required=True)
     class Meta:
         model = Paper
         fields = [
             'Title',
+            'NumberOfAssignedReviewers',
             'NotesToReviewers'
         ]
 

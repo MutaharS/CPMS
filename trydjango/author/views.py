@@ -108,6 +108,7 @@ def submit_paper_view(request):
             form.FilenameOriginal = str(request.FILES['FileUpload'])
             fname = handle_uploaded_file(request.FILES['FileUpload']) # Get the actual filepath while saving file
             form.Filename = fname # Set the file path
+            form.NumberOfAssignedReviewers = 0 # initialize this to zero
             form.save()
 
             form = PaperSubmissionForm() # Reset the form visually and allow iterating over it
