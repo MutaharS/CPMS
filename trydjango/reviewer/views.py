@@ -26,19 +26,17 @@ import os
 
 # TODO:
 
-def download(request, paperpath):
+def download_paper(request, paperpath):
     REMOVE_FOLDER_CHARS = 8 + 32 # 8 chars in 'uploads/', 32 chars in UUID
     response = HttpResponse(open(os.getcwd() + '/' + paperpath, 'rb').read())
     response['Content-Type'] = 'application/pdf'
     response['Content-Disposition'] = 'attachment; filename=%s' % paperpath[REMOVE_FOLDER_CHARS:]
     return response
-    print(os.getcwd())
-    print(paperpath)
 
 def assigned_papers_view(request):
     if request.method == "GET" and request.GET.get('data') != None:
         paperpath = request.GET.get('data')
-        return download(request,paperpath)
+        return download_paper(request,paperpath)
 
     # Store data as list of tuples (Title, Filename)
     assigned_papers = []
@@ -46,7 +44,7 @@ def assigned_papers_view(request):
     # Get queryset with the reviews assigned to this reviewer
     queryset = Review.objects.all().filter(ReviewerID=Reviewer.objects.get(Email=request.user.username))
     for review in queryset:
-        papertuple = [review.PaperID.Title, review.PaperID.Filename]
+        papertuple = [review.PaperID.Title, review.PaperID.NotesToReviewers, review.PaperID.Filename]
         assigned_papers.append(papertuple)
     
     return render(request, "assigned_papers.html", { "assigned_papers" : assigned_papers })
@@ -103,6 +101,9 @@ def review_form_view(request):
 
         # Save the review object
         review.save()
+        message = "Your review was submitted successfully, thank you."
+        # Redirect user with success message
+        return render(request, "home.html", { "message" : message })
 
     return render(request, "review_form_backup.html", {"form": form} )
     

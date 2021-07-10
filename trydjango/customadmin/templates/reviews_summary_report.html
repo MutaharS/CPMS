@@ -34,7 +34,7 @@
 </style>
 <html lang="en" dir="ltr">
     <body>
-        <div class="row mt-4">
+        <div class="row mt-5">
             <div class="col-md-1"></div>
             <div class="col-xs-12 col-md-6">
                 <table class="table table-hover">
@@ -60,86 +60,90 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th scope="row"></th>
-                        <td>Scopus and the Web of Science</td>
-                        <td>4.67</td>
-                        <td>2.50</td>
-                        <td>4.89</td>
-                        <td>2.89</td>
-                        <td>3.99</td>
-                        <td>2.90</td>
-                        <td>5.00</td>
-                        <td>4.05</td>
-                        <td>3.85</td>
-                        <td>3.74</td>
-                        <td>3.62</td>
-                        <td>3.44</td>
-                        <td>3.11</td>
-                        <td>Paper#76.pdf</td> 
-                        <td>3.45</td>
-                    </tr>
-                    <tr>
-                        <th scope="row"></th>
-                        <td>Software Patterns</td>
-                        <td>3.42</td>
-                        <td>4.62</td>
-                        <td>3.94</td>
-                        <td>3.27</td>
-                        <td>3.12</td>
-                        <td>3.91</td>
-                        <td>2.32</td>
-                        <td>5.00</td>
-                        <td>2.78</td>
-                        <td>3.01</td>
-                        <td>3.22</td>
-                        <td>3.24</td>
-                        <td>3.00</td>
-                        <td>Paper#77.pdf</td> 
-                        <td>3.43</td>
-                    </tr>
-                    <tr>
-                        <th scope="row"></th>
-                        <td>Turing Machines</td>
-                        <td>4.67</td>
-                        <td>2.50</td>
-                        <td>4.89</td>
-                        <td>2.89</td>
-                        <td>3.99</td>
-                        <td>2.90</td>
-                        <td>5.00</td>
-                        <td>4.05</td>
-                        <td>3.85</td>
-                        <td>3.74</td>
-                        <td>3.62</td>
-                        <td>3.44</td>
-                        <td>3.11</td>
-                        <td>Paper#78.pdf</td> 
-                        <td>3.62</td>
-                    </tr>
-                    <tr>
-                        <th scope="row"></th>
-                        <td>Reinforcement Learning for Robotic Grasping</td>
-                        <td>4.89</td>
-                        <td>4.70</td>
-                        <td>5.00</td>
-                        <td>5.00</td>
-                        <td>4.67</td>
-                        <td>5.00</td>
-                        <td>4.67</td>
-                        <td>5.00</td>
-                        <td>4.67</td>
-                        <td>4.67</td>
-                        <td>5.00</td>
-                        <td>5.00</td>
-                        <td>5.00</td>
-                        <td>Paper#79.pdf</td> 
-                        <td>4.89</td>
-                    </tr>
+                        {% for row in reviewSummaries %}
+                        <tr>
+                            <th scope="row"></th>
+                            <td> {{ row.Title }} </td>
+                            <td> {{ row.AppropriatenessOfTopic }} </td>
+                            <td> {{ row.TimelinessOfTopic }} </td>
+                            <td> {{ row.SupportiveEvidence }} </td>
+                            <td> {{ row.TechnicalQuality }} </td>
+                            <td> {{ row.ScopeOfCoverage }} </td>
+                            <td> {{ row.CitationOfPreviousWork}} </td>
+                            <td> {{ row.Originality }} </td>
+                            <td> {{ row.OrganizationOfPaper }} </td>
+                            <td> {{ row.ClarityOfMainMessage }} </td>
+                            <td> {{ row.Mechanics }} </td>
+                            <td> {{ row.SuitabilityForPresentation }} </td>
+                            <td> {{ row.PotentialInterestInTopic }} </td>
+                            <td> {{ row.OverallRating }} </td>
+                            <td> {{ row.Filename }} </td> 
+                            <td> {{ row.WeightedScore }} </td>
+                        </tr>
+                        {% endfor %}
+                        <!--
+                        <tr>
+                            <th scope="row"></th>
+                            <td>Software Patterns</td>
+                            <td>3.42</td>
+                            <td>4.62</td>
+                            <td>3.94</td>
+                            <td>3.27</td>
+                            <td>3.12</td>
+                            <td>3.91</td>
+                            <td>2.32</td>
+                            <td>5.00</td>
+                            <td>2.78</td>
+                            <td>3.01</td>
+                            <td>3.22</td>
+                            <td>3.24</td>
+                            <td>3.00</td>
+                            <td>Paper#77.pdf</td> 
+                            <td>3.43</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>Turing Machines</td>
+                            <td>4.67</td>
+                            <td>2.50</td>
+                            <td>4.89</td>
+                            <td>2.89</td>
+                            <td>3.99</td>
+                            <td>2.90</td>
+                            <td>5.00</td>
+                            <td>4.05</td>
+                            <td>3.85</td>
+                            <td>3.74</td>
+                            <td>3.62</td>
+                            <td>3.44</td>
+                            <td>3.11</td>
+                            <td>Paper#78.pdf</td> 
+                            <td>3.62</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>Reinforcement Learning for Robotic Grasping</td>
+                            <td>4.89</td>
+                            <td>4.70</td>
+                            <td>5.00</td>
+                            <td>5.00</td>
+                            <td>4.67</td>
+                            <td>5.00</td>
+                            <td>4.67</td>
+                            <td>5.00</td>
+                            <td>4.67</td>
+                            <td>4.67</td>
+                            <td>5.00</td>
+                            <td>5.00</td>
+                            <td>5.00</td>
+                            <td>Paper#79.pdf</td> 
+                            <td>4.89</td>
+                        </tr>
+                        -->
                     </tbody>
                 </table>
                 <div class="container mb-5">
-                    <a href="#"> <small>Download CSV</small> </a>
+                    <a href={% url 'admin:reviews_summary_report' %}?data="downloadcsv"> <small>Download CSV</small> </a>
                 </div>
             </div>
             <div class="col-md-3"></div>

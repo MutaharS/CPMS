@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.shortcuts import render
 from topic.models import Topic
 from trydjango.settings import TOPICS

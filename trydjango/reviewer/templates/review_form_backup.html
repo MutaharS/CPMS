@@ -21,6 +21,7 @@
                     </div>
                 </div>
             </div>
+            <!-- Need to direct flow of control back to reviewform to save the posted contents -->
             <form method="POST" action={% url 'reviewform' %} novalidate> {% csrf_token %}
                 <div class="mx-5">
                     <!-- Start Row -->

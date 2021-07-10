@@ -35,4 +35,4 @@ class Paper(models.Model):
 
     # Override printing of a Paper object as the first name and last name plus email
     def __str__(self):
-        return self.AuthorID.LastName + ", " + self.AuthorID.LastName + ": " + self.Title
+        return self.AuthorID.LastName + ", " + self.AuthorID.FirstName + ": " + self.Title
