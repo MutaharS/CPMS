@@ -2,20 +2,12 @@ from reviewer.forms import ChooseReviewForm
 from django.contrib import admin
 from django.shortcuts import render
 from django.http import HttpResponse
-from reviewer.models import Review
-from author.models import Paper
+from reviewer.models import Review, Reviewer
+from author.models import Paper, Author
 
 # For CSV building/download
 from django.http.response import HttpResponse
 import csv
-
-# Custom admin pages for report generation
-# @admin.site.register_view('home', urlname='home_from_admin', name='Home Page')
-# def custom_hello(request):
-#     context = dict(
-#         admin.site.each_context(request),
-#     )
-#     return render(request, "home.html", context)
 
 SPECIFIC_AVG_WEIGHT = 0.5
 OVERALL_RATING_WEIGHT = 0.5
@@ -83,10 +75,14 @@ def reviews_summary_report_view(request):
     # Store the CSV Header row
     csvcontents = []    # csvcontents will store each row of the csv
     currentrow = []     # The current row we are processing
+    # First column is title
+    currentrow.append('Title')
     for header in SCORE_FIELDS:
         currentrow.append(header)   # append header columns to the row
     csvcontents.append(currentrow)  # append the row containing header columns to csvcontents
-
+    currentrow.append('Filename')
+    currentrow.append('Weighted Score')
+    
     # For each paper, get the average of its reviews and create a reviewSummary containing the required data
     # Add that review summary to reviewSummaries
     # NOTE: 1) Check that the reviews reported are complete
@@ -156,18 +152,144 @@ def reviews_summary_report_view(request):
 
     return render(request, "reviews_summary_report.html", context)
 
+# Reviewer Comments Report
+@admin.site.register_view('reviewer_comments_report', urlname='reviewer_comments_report', name='Reviewer Comments Report')
+def reviews_summary_report_view(request):
+    # Create the HttpResponse object with the appropriate CSV header.
+    csvcontents = []
+    # The actual header to write to csv
+    header = ['LastName', 'FirstName', 'MiddleInitial', 
+        'Email', 'Filename', 'Title', 'ContentComments', 'WrittenDocumentComments', 
+        'Potential For Oral Presentation Comments',  'Overall Rating Comments'
+    ]
+    # The one to reference when iterating through review object
+    keyheader = ['LastName', 'FirstName', 'MiddleInitial', 
+        'Email', 'Filename', 'Title', 'ContentComments', 'WrittenComments', 
+        'OralComments',  'OverallComments'
+    ]
+
+    response = HttpResponse(
+        content_type='text/csv'
+    )
+    response['Content-Type'] = 'text/csv'
+    response['Content-Disposition'] = 'attachment; filename=reviewer_comments_report.csv'
+    writer = csv.writer(response)
+
+    # Store header
+    csvcontents.append(header)
+
+    # For each paper, get its reviews
+    allPapers = Paper.objects.all()
+    for paper in allPapers:
+        # For CSV creation reset the current row
+        currentrow = []
+
+        # Get the reviews for this paper
+        reviews = Review.objects.filter(PaperID=paper,Complete=True)
+        for review in reviews:
+            for key in review.ReviewerID.__dict__.keys():
+                if key in keyheader:
+                    currentrow.append(review.ReviewerID.__dict__.get(key))
+            currentrow.append(review.PaperID.FilenameOriginal)
+            currentrow.append(review.PaperID.Title)
+            for key in review.__dict__.keys():
+                if key in keyheader:
+                    currentrow.append(review.__dict__.get(key))
+            csvcontents.append(currentrow)
+            print(currentrow)
+            currentrow = []
+    # If the user clicked Download CSV Link, then return HttpResponse
+    if request.method == "GET" and request.GET.get('data') != None:
+        print(csvcontents)
+        writer.writerows(csvcontents)
+        return response
+    
+    # Pop the header off csvcontents before passing to template
+    csvcontents.pop(0)
+    context = {
+        'review_data' : csvcontents
+    }
+    
+    return render(request, "reviewer_comments_report.html", context)
+
 # Reviewer Report
 @admin.site.register_view('reviewer_report', urlname='reviewer_report', name='Reviewer Report')
 def reviews_summary_report_view(request):
-    context = dict(
-        admin.site.each_context(request),
+    # Create the HttpResponse object with the appropriate CSV header.
+    csvcontents = []
+    header = ['LastName', 'FirstName', 'MiddleInitial', 
+        'Affiliation', 'Department', 'Address', 'City', 'State', 
+        'ZipCode',  'CellNumber', 'WorkNumber', 'Email'
+    ]
+    response = HttpResponse(
+        content_type='text/csv'
     )
+    response['Content-Type'] = 'text/csv'
+    response['Content-Disposition'] = 'attachment; filename=reviewer_report.csv'
+    writer = csv.writer(response)
+    
+    # Store headers
+    csvcontents.append(header)
+    currentrow = []
+
+    context = {}
+    allReviewers = Reviewer.objects.all()
+    reviewerTable = []
+    for reviewer in allReviewers:
+        reviewerTable.append(reviewer)
+        # get data for csv row
+        for data in reviewer.__dict__.keys():
+            if data in header:
+                currentrow.append(reviewer.__dict__.get(data))
+        csvcontents.append(currentrow)
+        currentrow = []
+            
+
+    context['reviewers'] = reviewerTable
+
+    # If the user clicked Download CSV Link, then return HttpResponse
+    if request.method == "GET" and request.GET.get('data') != None:
+        writer.writerows(csvcontents)
+        return response
     return render(request, "reviewer_report.html", context)
 
 # Author Report
 @admin.site.register_view('author_report', urlname='author_report', name='Author Report')
 def reviews_summary_report_view(request):
-    context = dict(
-        admin.site.each_context(request),
+    # Create the HttpResponse object with the appropriate CSV header.
+    csvcontents = []
+    header = ['LastName', 'FirstName', 'MiddleInitial', 
+        'Affiliation', 'Department', 'Address', 'City', 'State', 
+        'ZipCode',  'CellNumber', 'WorkNumber', 'Email'
+    ]
+    response = HttpResponse(
+        content_type='text/csv'
     )
+    response['Content-Type'] = 'text/csv'
+    response['Content-Disposition'] = 'attachment; filename=author_report.csv'
+    writer = csv.writer(response)
+    
+    # Store headers
+    csvcontents.append(header)
+    currentrow = []
+
+    context = {}
+    allAuthors = Author.objects.all()
+    authorTable = []
+    for author in allAuthors:
+        authorTable.append(author)
+        # get data for csv row
+        for data in Author.__dict__.keys():
+            if data in header:
+                currentrow.append(author.__dict__.get(data))
+        csvcontents.append(currentrow)
+        currentrow = []
+            
+
+    context['authors'] = authorTable
+    
+    # If the user clicked Download CSV Link, then return HttpResponse
+    if request.method == "GET" and request.GET.get('data') != None:
+        writer.writerows(csvcontents)
+        return response
     return render(request, "author_report.html", context)

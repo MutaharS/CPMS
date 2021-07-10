@@ -5,9 +5,9 @@ from author.models import Paper
 # Create your models here.
 class Reviewer(models.Model):
     ReviewerID = models.AutoField(primary_key=True)
+    LastName = models.CharField(max_length=200)
     FirstName = models.CharField(max_length=200)
     MiddleInitial = models.CharField(max_length=1,blank=True, null=True)
-    LastName = models.CharField(max_length=200)
     Affiliation = models.CharField(max_length=200)
     Department = models.CharField(max_length=200)
     CellNumber = models.CharField(max_length=200)

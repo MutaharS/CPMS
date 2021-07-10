@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+<title>Reviewer Comments Report</title>
+<style>
+    .center_div{
+        margin: 0 auto;
+        width:100% /* value of your choice which suits your alignment */
+    }
+
+    /* header padding */
+    th.rotated-text {
+        height: 140px;
+        white-space: nowrap;
+        padding-bottom: 0.5em;
+        padding-left: 0.5em;
+    }
+
+    th.rotated-text > div {
+        transform:
+            translate(-5px, 0px)
+            rotate(310deg);
+        width: 30px;
+    }
+
+    th.rotated-text > div > span {
+        padding: 5px 10px;
+    }
+
+    .col-w {
+        padding: 0.8em !important;
+    }
+</style>
+<html lang="en" dir="ltr">
+    <body>
+        <div class="row mt-5">
+            <div class="row mt-5 mb-5"></div>
+            <div class="col-md-1"></div>
+            <div class="col-xs-12 col-md-6">
+                <table class="table table-hover">
+                    <thead class="membership-tiers text-left">
+                    <tr>
+                        <th scope="col"></th>
+                        <th class="rotated-text" scope="col"><div><span>Last Name</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>First Name</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>M.I.</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Email</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>File Name</span></div></th>
+                        <th class="rotated-text" scope="col"><div><span>Title</span></div></th>
+                        <th class="rotated-text" scope="col" style="padding-right: 5em;"><div><span>Content Comments</span></div></th>
+                        <th class="rotated-text" scope="col" style="padding-right: 5em;"><div><span>Written Document Comments</span></div></th>
+                        <th class="rotated-text" scope="col" style="padding-right: 5em;"><div><span>Potential For Oral Presentation Comments</span></div></th>
+                        <th class="rotated-text" scope="col" style="padding-right: 6em;"><div><span>Overall Rating Comments</span></div></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in review_data %}
+                        <tr>
+                            <th scope="row"></th>                       
+                            <td> {{ row.0 }} </td>
+                            <td> {{ row.1 }} </td>
+                            <td> {{ row.2 }} </td>
+                            <td> {{ row.3 }} </td>
+                            <td> {{ row.4 }} </td>
+                            <td> {{ row.5 }} </td>
+                            <td> 
+                                {% if row.6 == '' %}
+                                    None
+                                {% else %}
+                                    {{ row.6 }} 
+                                {% endif %}
+                            </td>
+                            <td> 
+                                {% if row.7 == '' %}
+                                    None
+                                {% else %}
+                                    {{ row.7 }} 
+                                {% endif %} 
+                            </td>
+                            <td> 
+                                {% if row.8 == '' %}
+                                    None
+                                {% else %}
+                                    {{ row.8 }} 
+                                {% endif %} 
+                            </td>
+                            <td> 
+                                {% if row.9 == '' %}
+                                    None
+                                {% else %}
+                                    {{ row.9 }} 
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="container mb-5">
+                    <a href={% url 'admin:reviewer_comments_report' %}?data="downloadcsv"> <small>Download CSV</small> </a>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </body>
+</html>
+{% endblock %}

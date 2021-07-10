@@ -49,71 +49,33 @@
                         <th class="rotated-text" scope="col"><div><span>City</span></div></th>
                         <th class="rotated-text" scope="col"><div><span>State</span></div></th>
                         <th class="rotated-text" scope="col"><div><span>Zip Code</span></div></th>
-                        <th class="rotated-text" scope="col" style="padding-right: 6em;"><div><span>Phone Number</span></div></th>
+                        <th class="rotated-text" scope="col" style="padding-right: 6em;"><div><span>Cell Number</span></div></th>
+                        <th class="rotated-text" scope="col" style="padding-right: 6em;"><div><span>Work Number</span></div></th>
                         <th class="rotated-text" scope="col"><div><span>Email</span></div></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th scope="row"></th>
-                        <td>Johnson</td>
-                        <td>Johnson</td>
-                        <td>J</td>
-                        <td>Rose-Hulman Institute of Technology</td>
-                        <td>Computer Science</td>
-                        <td>123 Real St</td>
-                        <td>Tampa</td>
-                        <td>FL</td>
-                        <td>54321</td>
-                        <td>813-444-2222</td>
-                        <td>johnson&johnson@johnson.org</td>
-                    </tr>
-                    <tr>
-                        <th scope="row"></th>
-                        <td>Johnson</td>
-                        <td>Johnson</td>
-                        <td>J</td>
-                        <td>Rose-Hulman Institute of Technology</td>
-                        <td>Computer Science</td>
-                        <td>123 Real St</td>
-                        <td>Tampa</td>
-                        <td>FL</td>
-                        <td>54321</td>
-                        <td>813-444-2222</td>
-                        <td>johnson&johnson@johnson.org</td>
-                    </tr>
-                    <tr>
-                        <th scope="row"></th>
-                        <td>Johnson</td>
-                        <td>Johnson</td>
-                        <td>J</td>
-                        <td>Rose-Hulman Institute of Technology</td>
-                        <td>Computer Science</td>
-                        <td>123 Real St</td>
-                        <td>Tampa</td>
-                        <td>FL</td>
-                        <td>54321</td>
-                        <td>813-444-2222</td>
-                        <td>johnson&johnson@johnson.org</td>
-                    </tr>
-                    <tr>
-                        <th scope="row"></th>
-                        <td>Johnson</td>
-                        <td>Johnson</td>
-                        <td>J</td>
-                        <td>Rose-Hulman Institute of Technology</td>
-                        <td>Computer Science</td>
-                        <td>123 Real St</td>
-                        <td>Tampa</td>
-                        <td>FL</td>
-                        <td>54321</td>
-                        <td>813-444-2222</td>
-                        <td>johnson&johnson@johnson.org</td>
-                    </tr>
+                    {% for reviewer in reviewers %}
+                        <tr>
+                            <th scope="row"></th>
+                            <td> {{ reviewer.LastName }} </td>
+                            <td> {{ reviewer.FirstName }} </td>
+                            <td> {{ reviewer.MiddleInitial }} </td>
+                            <td> {{ reviewer.Affiliation}} </td>
+                            <td> {{ reviewer.Department }} </td>
+                            <td> {{ reviewer.Address }} </td>
+                            <td> {{ reviewer.City }} </td>
+                            <td> {{ reviewer.State }} </td>
+                            <td> {{ reviewer.ZipCode }} </td>
+                            <td> {{ reviewer.CellNumber }} </td>
+                            <td> {{ reviewer.WorkNumber }} </td>
+                            <td> {{ reviewer.Email }} </td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
                 <div class="container mb-5">
-                    <a href="#"> <small>Download CSV</small> </a>
+                    <a href={% url 'admin:reviewer_report' %}?data="downloadcsv"> <small>Download CSV</small> </a>
                 </div>
             </div>
             <div class="col-md-3"></div>
