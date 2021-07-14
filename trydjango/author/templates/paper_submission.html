@@ -21,6 +21,9 @@
                     </div>
                 </div>
             </div>
+            <div class="container text-center text-success">
+                <h3 class="display-4">{{ message }}</h3>
+            </div>
             <form method="POST" enctype="multipart/form-data" action={% url 'submitpaper' %} novalidate> {% csrf_token %}
                 <div class="mx-5">
                     <!-- Start Row -->

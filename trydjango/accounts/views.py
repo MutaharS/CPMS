@@ -14,9 +14,7 @@ def login_view(request):
         user = authenticate(request,username=username,password=password)
         # user = authenticate(request,username=username,password=password,is_reviewer=True)
         if user != None:
-            print("login success")
             login(request,user)
-            print(request.user)
             return redirect("/") # Redirect to homepage
         else:
             context["message"] = "Sorry, could not authenticate user."

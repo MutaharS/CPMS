@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, login
 from trydjango.settings import TOPICS
 from .models import Author, Paper
 from topic.models import Topic, PaperTopic
@@ -7,7 +8,7 @@ from .forms import AuthorRegistrationForm, AuthorEditProfileForm, PaperSubmissio
 import os, ntpath # For file saving
 import uuid # unique identifier generation (handle case where two papers have the same name)
 
-# Define author reviews
+# Define author signup
 def author_signup_view(request):
     # Get the form
     form = AuthorRegistrationForm(request.POST or None)
@@ -25,6 +26,8 @@ def author_signup_view(request):
         obj.is_author = True # Set this user as an author
         obj.set_password(formData.get('Password'))
         obj.save() # save object instance to db
+
+        # Redirect user to login page upon signup
         return redirect('/login')
     else:
         print('invalid form')
@@ -35,12 +38,12 @@ def author_signup_view(request):
 def author_profile(request):
     # Get the author object
     author = Author.objects.get(Email=request.user.username)
-
+    context = {}
     # Get the current author information to pass to the form (so user can see what data they currently have)
-    context = author.__dict__
+    info = author.__dict__
     if not request.method == 'POST':
         # Before they submit the form, show the form with their user data
-        form = AuthorEditProfileForm(initial=context)
+        form = AuthorEditProfileForm(initial=info)
     else:
         # Get the submitted form
         form = AuthorEditProfileForm(request.POST or None)
@@ -64,19 +67,32 @@ def author_profile(request):
         User = get_user_model()
         obj = User.objects.get(username=email)
 
-        # Only update the password if the OldPassword, NewPassword and ConfirmNewPassword fields are all
-        # not blank (form validation will take care of the rest)
-        # if(len(formData.get('OldPassword)) != 0 and ...)
-        # obj.set_password(formData.get('NewPassword'))
+        # Only update the password if the OldPassword, NewPassword and ConfirmNewPassword fields are all validated
+        oldpass = formData.get('OldPassword')
+        newpass = formData.get('NewPassword')
+        confirmnewpass = formData.get('ConfirmNewPassword')
+        passchanged = False
+        if(oldpass == author.Password and len(newpass) > 0 and confirmnewpass == newpass):
+            author.Password = newpass
+            obj.set_password(newpass)
+            passchanged = True
 
         # Save the changes
         author.save() # save author data to db
         obj.save() # save object instance to db
-    else:
-        # Remove else statement in production
-        print(form.errors)
-        print('invalid')
-    return render(request, "profile.html", {"form" : form })
+
+        if passchanged:
+            # if the password changed, need to log user back in
+            user = authenticate(request,username=author.Email, password=newpass)
+            login(request,user)
+
+        context['message'] = 'Changes saved!'
+        if passchanged == False and len(newpass) > 0:
+            context['message'] = 'Password could not be changed.'
+    elif not form.is_valid() and request.method == "POST":
+        context['message'] = 'Changes could not be saved!'
+    context['form'] = form
+    return render(request, "author_profile.html", context)
 
 # Function to handle uploading the file
 def handle_uploaded_file(file):
@@ -96,6 +112,7 @@ def handle_uploaded_file(file):
 
 #form = form.save(commit=False) # Save the review, but don't commit to the db yet
 def submit_paper_view(request):
+    context = {}
     if request.method == "POST":
         form = PaperSubmissionForm(request.POST, request.FILES)
         print(form.errors)
@@ -125,6 +142,10 @@ def submit_paper_view(request):
                         topic = Topic.objects.get(TopicName=field.label) # Get the topic with this name
                         pt = PaperTopic(PaperID=paper,TopicID=topic) # Create the ReviewerTopic instance
                         pt.save() # save the instance to the database
+            
+            # Pass success message to user
+            context['message'] = 'Successful paper submission'
     else:
         form = PaperSubmissionForm(None)
-    return render(request, "paper_submission.html", {"form" : form})
+    context['form'] = form
+    return render(request, "paper_submission.html", context)

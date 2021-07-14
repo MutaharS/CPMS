@@ -1,11 +1,12 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, login
 from django.db.models.query_utils import select_related_descend
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import HttpResponse, Http404
 from django import forms
 from .models import Reviewer, Review
-from .forms import ReviewerRegistrationForm, ChooseReviewForm, PaperReviewForm
+from .forms import ReviewerRegistrationForm, ChooseReviewForm, PaperReviewForm, ReviewerEditProfileForm
 from topic.models import Topic, ReviewerTopic
 from trydjango.settings import TOPICS
 import os
@@ -173,8 +174,71 @@ def reviewer_signup_view(request):
         obj.set_password(formData.get('Password'))
         obj.save() # save object instance to db
 
+        # Redirect user to login page upon signup
+        return redirect('/login')
+
     print('form is not valid')
     context = {
         'form': form
     } # When we use navbar to get here, there is no context
     return render(request,"sign_up.html",context)
+
+def reviewer_profile(request):
+    # Get the author object
+    reviewer = Reviewer.objects.get(Email=request.user.username)
+    context = {}
+    # Get the current reviewer information to pass to the form (so user can see what data they currently have)
+    info = reviewer.__dict__
+    if not request.method == 'POST':
+        # Before they submit the form, show the form with their user data
+        form = ReviewerEditProfileForm(initial=info)
+    else:
+        # Get the submitted form
+        form = ReviewerEditProfileForm(request.POST or None)
+    
+    # If the form has been validated, then make the appropriate changes to the reviewer object
+    if form.is_valid() and request.method == "POST":
+        formData = form.cleaned_data  # Get dictionary of field -> value
+        email = request.user.username
+        
+        # Modify the reviewer and user object corresponding to this reviewer
+        reviewer.Affiliation = formData.get('Affiliation')
+        reviewer.Department = formData.get('Department')
+        reviewer.CellNumber = formData.get('CellNumber')
+        reviewer.WorkNumber = formData.get('WorkNumber')
+        reviewer.Address = formData.get('Address')
+        reviewer.City = formData.get('City')
+        reviewer.State = formData.get('State')
+        reviewer.ZipCode = formData.get('ZipCode')
+
+        # Set the username in User database as the reviewer's email and set their respective password
+        User = get_user_model()
+        obj = User.objects.get(username=email)
+
+        # Only update the password if the OldPassword, NewPassword and ConfirmNewPassword fields are all validated
+        oldpass = formData.get('OldPassword')
+        newpass = formData.get('NewPassword')
+        confirmnewpass = formData.get('ConfirmNewPassword')
+        passchanged = False
+        if(oldpass == reviewer.Password and len(newpass) > 0 and confirmnewpass == newpass):
+            reviewer.Password = newpass
+            obj.set_password(newpass)
+            passchanged = True
+
+        # Save the changes
+        reviewer.save() # save author data to db
+        obj.save() # save object instance to db
+
+        if passchanged:
+            # if the password changed, need to log user back in
+            user = authenticate(request,username=reviewer.Email, password=newpass)
+            login(request,user)
+
+        context['message'] = 'Changes saved!'
+        if passchanged == False and len(newpass) > 0:
+            context['message'] = 'Password could not be changed.'
+
+    elif not form.is_valid() and request.method == "POST":
+        context['message'] = 'Changes could not be saved!'
+    context['form'] = form
+    return render(request, "reviewer_profile.html", context)

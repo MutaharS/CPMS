@@ -22,6 +22,9 @@
                 </div>
             </div>
             <h3 class="display-6 mt-5">Edit Contact Information </h3>
+            <div class="container text-center text-success">
+                <h3 class="display-4">{{ message }}</h3>
+            </div>
             <form method="POST" action={% url 'authorprofile' %} novalidate> {% csrf_token %}
                 <!-- Start Row -->
                 <div class="row">

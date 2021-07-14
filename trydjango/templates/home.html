@@ -64,6 +64,21 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
+            {% if request.user.is_author %}
+            <div class="container">
+                <h1 class="h3 text-center p-3">  </h1>
+            </div>
+            <div class="container w-75">
+                <div class="p-2 text-black-50 text-center">
+                    <div class="p-2">
+                        <p>
+                            Logged in as an author.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
             <div class="container w-75">
                 <div class="p-2 text-black-50 text-center">
                     <div class="lead p-2">
@@ -73,7 +88,6 @@
                     </div>
                 </div>
             </div>
-            {% endif %}
         </div>
     </div>
 </body>

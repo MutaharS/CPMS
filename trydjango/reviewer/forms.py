@@ -168,3 +168,25 @@ class ReviewerRegistrationForm(forms.ModelForm):
         if(len(other) == 0):
             raise forms.ValidationError("Please select at least one topic, or describe one in Other (Describe)")
         return other
+
+class ReviewerEditProfileForm(forms.ModelForm):
+    OldPassword = forms.CharField(widget=forms.PasswordInput, label='Old Password', required=False)
+    NewPassword = forms.CharField(widget=forms.PasswordInput, label='New Password', required=False)
+    ConfirmNewPassword = forms.CharField(widget=forms.PasswordInput, label='Confirm New Password', required=False)
+    class Meta:
+        model = Reviewer
+        fields = [
+                'Affiliation',
+                'Department',
+                'CellNumber',
+                'WorkNumber',
+                'Address',
+                'City',
+                'State',
+                'ZipCode'
+        ]
+    
+    # TODO: clean up the cellphone to remove '-' from it
+    def clean_CellNumber(self, *args, **kwargs):
+        cellnumber = self.cleaned_data.get('CellNumber')
+        return cellnumber
