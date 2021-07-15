@@ -65,6 +65,15 @@ class AuthorEditProfileForm(forms.ModelForm):
                 'State',
                 'ZipCode'
         ]
+    # TODO: Validate OldPassword is correct if NewPassword and ConfirmNewPassword are not blank
+    def clean_OldPassword(self, *args, **kwargs):
+        oldpassword = self.cleaned_data.get('OldPassword')
+        return oldpassword
+
+    # TODO: Validate ConfirmNewPassword is equal to NewPassword, if OldPassword and NewPassword are not blank
+    def clean_ConfirmNewPassword(self, *args, **kwargs):
+        confirmnewpassword = self.cleaned_data.get('ConfirmNewPassword')
+        return confirmnewpassword
     
     # TODO: clean up the cellphone to remove '-' from it
     def clean_CellNumber(self, *args, **kwargs):

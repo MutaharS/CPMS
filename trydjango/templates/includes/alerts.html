@@ -1,0 +1,20 @@
+{% if messages %}
+
+    {% for message in messages %}
+    <div id="message" class="container">
+    <div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+    </div>
+    </div>
+    {% endfor %}
+    <script src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.js'></script>
+    <script type="text/javascript">
+
+      setTimeout(function() {
+        $('#message').fadeOut('slow')
+      }, 2000)
+    </script>
+
+{% endif %}

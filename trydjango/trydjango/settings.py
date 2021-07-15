@@ -56,19 +56,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django.contrib.sites',
+
     # My apps
     'customadmin',
-    'products',
     'accounts',
     'topic',
     'author',
     'reviewer',
     'pages',
-    
+
     # Third party apps
     'adminplus',
     'crispy_forms',
 ]
+SITE_ID = 1
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -151,3 +153,28 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
+
+# EMAIL_HOSTS = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'cpms.test21@gmail.com'
+# EMAIL_HOST_PASSWORD = 'contrasena@2021'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = False
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+EMAIL_HOSTS = 'localhost'
+EMAIL_PORT = '1025'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

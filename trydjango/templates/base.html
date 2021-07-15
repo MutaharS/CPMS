@@ -65,11 +65,6 @@
                     <li class="nav-item px-2">
                         <a class="nav-link" href={% url 'choosereviewform' %}>Submit Review</a>
                     </li>  
-                    <!-- Possibly remove this page
-                    <li class="nav-item px-2">
-                        <a class="nav-link" href="#">View Reviews</a>
-                    </li>  
-                    -->
                     {% endif %}
                     {% if request.user.is_authenticated %}
                     <li class="nav-item px-2">

@@ -107,24 +107,6 @@ def review_form_view(request):
         return render(request, "home.html", { "message" : message })
 
     return render(request, "review_form_backup.html", {"form": form} )
-    
-# def review_form_view(request):
-#     form = PaperReviewForm(request.POST or None)
-#     # Check that the form is valid
-#     print(form.errors)
-#     if form.is_valid():
-#         print('Valid Form')
-#         rID = Reviewer.objects.get(Email=request.user.username)
-#         form = form.save(commit=False) # Save the review, but don't commit to the db yet
-#         print(rID)
-#         # TODO: Add PaperID
-
-#         form.ReviewerID = rID # Set the ReviewerID
-#         form.save() # Now we can save it
-#         form = PaperReviewForm()    # Reset the form visually
-#     else:
-#         print('Form is not valid')
-#     return render(request, "review_form.html", {"form": form})
 
 # View for when a reviewer wants to create an account (from navbar)
 def reviewer_signup_view(request):

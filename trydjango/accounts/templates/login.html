@@ -29,7 +29,7 @@
                 <div class="col mb-2">
                     {{ form.password|as_crispy_field }}
                 </div>
-                <a href="#"> <small> Forgot Password </small> </a>
+                <a href="{% url 'password_reset' %}"> <small> Forgot Password </small> </a>
             </div>
             <div class="container mt-5 float-start mb-5">
                 <button type="submit" class="btn btn-primary">Login</button>

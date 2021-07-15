@@ -19,13 +19,16 @@ admin.site = AdminSitePlus()
 admin.sites.site = admin.site
 admin.autodiscover()
 
-from django.urls import path
+from django.urls import path,include
 from pages import views
 from author.views import author_signup_view, author_profile, submit_paper_view
-from products.views import product_detail_view, product_create_view
 from reviewer.views import reviewer_signup_view, choose_review_view, review_form_view, assigned_papers_view, reviewer_profile
-from accounts.views import login_view, logout_view
+from accounts.views import login_view, logout_view, password_reset
 from adminplus.sites import AdminSitePlus
+
+
+from django.conf import settings
+
 
 urlpatterns = [
     # Standard Pages
@@ -48,6 +51,7 @@ urlpatterns = [
 
     # To be removed in production
     path('topic_reset/', views.reset_topic_view),
-    path('view_product/', product_detail_view, name='viewproduct'),
-    path('create/', product_create_view),
+
+    # Accounts
+    path('accounts/',include('accounts.urls')),
 ]

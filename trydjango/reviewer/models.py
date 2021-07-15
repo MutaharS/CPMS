@@ -51,7 +51,7 @@ class Review(models.Model):
     # Remove paper title once reviewer-paper matching is completed
     # We can just have a dropbox of the papers that this reviewer has been assigned
     # Rather than typing the paper
-    #PaperTitle = models.CharField(max_length=200,blank=False,null=False,default="") 
+    #PaperTitle = models.CharField(max_length=200,blank=False,null=False,default="")
     AppropriatenessOfTopic = models.IntegerField(choices=GRADE_CHOICES,default=3)
     TimelinessOfTopic = models.IntegerField(choices=GRADE_CHOICES,default=3)
     SupportiveEvidence = models.IntegerField(choices=GRADE_CHOICES,default=3)

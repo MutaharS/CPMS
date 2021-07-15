@@ -1,5 +1,6 @@
 from django.db import models
-from datetime import datetime
+from datetime import datetime, timezone
+from django.contrib.auth.models import User
 # Create your models here.
 class Author(models.Model):
     AuthorID = models.AutoField(primary_key=True)
@@ -20,7 +21,7 @@ class Author(models.Model):
 
     # Override printing of an Author object as the first name and last name plus email
     def __str__(self):
-        return self.FirstName + " " + self.LastName + ": " + self.Email
+        return self.FirstName + " " + self.LastName + ": " + self.Email # + " " + self.Password
 
 class Paper(models.Model):
     PaperID = models.AutoField(primary_key=True)
